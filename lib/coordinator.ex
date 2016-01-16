@@ -5,11 +5,11 @@ defmodule Metex.Coordinator do
       {:ok, result} ->
         new_results = [result | results]
         if results_expected == new_results |> Enum.count do
-          send self, :exit
+          self |> send(:exit)
         end
         loop(new_results, results_expected)
       :exit ->
-        IO.puts(results |> Enum.sort |> Enum.join(", "))
+        results |> Enum.sort |> Enum.join(", ") |> IO.puts
       _ ->
         loop(results, results_expected)
     end
